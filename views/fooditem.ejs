@@ -1,8 +1,26 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Klee+One&display=swap');
+
+    body {
+        padding: 2em;
+        margin: auto;
+        max-width: 12em;
+    }
+    
+</style>
+
 <%- include('partials/header') %> 
 
 <h1>List Item</h1>
 
-<h2>Food item name: <%= foodItem.name %> </h2>
-<h2>Food item ID: <%= foodItem.id %> </h2>
+<form action="/update-item" method="post">
+    Food item:
+    <input type="text" name="name" value="<%= foodItem.name %>">
+    <input type="hidden" name="id" value="<%= foodItem.id %>">
+    <p>Food item ID: <%= foodItem.id %> </p>
+    <input type="submit" value="Update">
+</form>
+
+<a href="/"><button>Grocery List</button></a>
 
 <%- include('partials/footer') %> 

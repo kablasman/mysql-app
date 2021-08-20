@@ -99,15 +99,44 @@ router.get('/fooditem/:id', (req, res) => {
     });
 });
 
-// creating endpoint route for deleting food item from list
+// defining endpoint for add item page 
+router.get('/add-list-item', (req, res) => {
+    res.render('add-list-item');
+});
+
+// creating endpoint route for adding food item to list (posting item to mysql)
+router.post('/add-to-list', (req, res) => {
+    const query = `INSERT INTO GroceryList (name) VALUES ('${req.body.name}')`;
+    dbConnection.query(query, (err, result) => {
+        if(err) {
+            throw err;
+        }
+        res.writeHead(302, {Location: '/'});
+        res.end();
+    });
+});
+
+// creating endpoint route for deleting food item from list (posting delete to mysql)
 router.post('/delete', (req, res) => {
     console.log('req', req.body.id);
-    const query = `DELETE FROM GroceryList WHERE id = ${req.body.id}`
+    const query = `DELETE FROM GroceryList WHERE id = ${req.body.id}`;
     dbConnection.query(query, (err, result) => {
         if(err) {
             throw err;
         }
         res.writeHead(302);
+        res.end();
+    });
+});
+
+// creating endpoint route for updating food item in single page (posting update to mysql)
+router.post('/update-item', (req, res) => {
+    const query = `UPDATE GroceryList SET name = '${req.body.name}' WHERE id = ${req.body.id}`;
+    dbConnection.query(query, (err, result) => {
+        if(err) {
+            throw err;
+        }
+        res.writeHead(302, {Location: '/'});
         res.end();
     });
 });

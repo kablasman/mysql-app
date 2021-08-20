@@ -1,0 +1,12 @@
+<%- include('partials/header') %> 
+
+<h1>Add List Item</h1>
+<form action="/add-to-list" method="post">
+    Food item:
+    <input type="text" name="name">
+    <input type="submit">
+</form>
+
+<a href="/"><button>Grocery List</button></a>
+
+<%- include('partials/footer') %> 
