@@ -6,9 +6,13 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const config = require('./config');
 const { error } = require('console');
+const { reduce } = require('async');
+require('dotenv').config({path: `.env.${process.env.NODE_ENV}`});
 
-app.use(express.static('public'));
+app.use(express.static(__dirname + 'public'));
 app.set('view engine', 'ejs');
+
+console.log("process", process.env.NODE_ENV);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -67,7 +71,7 @@ dbConnection.connect((err) => {
 
 // ]
 
-// setting up http request, grabbing data from db
+// setting up http request, grabbing data from db, home page
 router.get('/', (req, res) => {
     const query = `SELECT * FROM GroceryList ORDER BY id ASC`
     dbConnection.query(query, (err, result) => {
@@ -80,8 +84,8 @@ router.get('/', (req, res) => {
     })
 });
 
-// defining another route
-router.get('/fooditem/:id', (req,res) => {
+// defining another route for food item page
+router.get('/fooditem/:id', (req, res) => {
     const foodId = req.params.id;
     console.log('foodId', foodId);
     const query = `SELECT * FROM GroceryList WHERE id = ${foodId}`;
@@ -95,23 +99,18 @@ router.get('/fooditem/:id', (req,res) => {
     });
 });
 
-//route to specific food item
-// app.get('/foodItem/:id', (req, res) => {
-//     // function that finds food item with specific id
-//     const foodItem = groceryList.find(specificId => specificId.id === parseInt(req.params.id));
-//     if (!foodItem) res.status(404).send('The food item with that ID was not found.'); // if not found on server, return 404
-//     res.send(foodItem); // if found, return that item
-// });
-
-// add a food item to list
-// app.post('/groceryList', (req, res) => {
-//     const foodItem = {
-//         id: groceryList.length +1,
-//         name: req.body.name
-//     }
-//     groceryList.push(foodItem);
-//     res.send(foodItem);
-// })
+// creating endpoint route for deleting food item from list
+router.post('/delete', (req, res) => {
+    console.log('req', req.body.id);
+    const query = `DELETE FROM GroceryList WHERE id = ${req.body.id}`
+    dbConnection.query(query, (err, result) => {
+        if(err) {
+            throw err;
+        }
+        res.writeHead(302);
+        res.end();
+    });
+});
 
 app.use('/', router);
 

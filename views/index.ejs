@@ -1,11 +1,62 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Klee+One&display=swap');
+
+    body {
+        padding: 2em;
+        margin: auto;
+        max-width: 12em;
+    }
+    
+    .delete {
+        cursor: pointer;
+    }
+
+</style>
+
 <%- include('partials/header') -%>
 
 <h1>Grocery List</h1>
 
-<ul class="grocery-list">
+<% if (groceryList.length > 0) { %> 
+
+<ul style="font-family: 'Klee One', cursive">
     <% groceryList.forEach(foodItem => { %>
-    <li><a href="/fooditem/<%= foodItem.id %> "><%= foodItem.name %></a></li>
+    <li id="<%= foodItem.id %>">
+        <a style="text-decoration: none; color: black" href="/fooditem/<%= foodItem.id %> "><%= foodItem.name %></a>
+        <span class="remove">&#10005;</span>
+    </li>
     <% }) %>
 </ul>
 
+<% } else { %> 
+    <p>There have been no grocery items found.</p>
+<% } %> 
+
 <%- include('partials/footer') -%>
+
+<script>
+    window.addEventListener('DOMContentLoaded', function() {
+        
+        // listening for remove handler, deletes correct id from string, if error it is caught
+        // if delete successful, refreshes page
+        const handleButtonClick = (event) => {
+            console.log("clicked", event.currentTarget.parentElement.id);
+            fetch('/delete', {
+                method: "post",
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({id: event.currentTarget.parentElement.id})
+            }).then((res) => {
+                console.log('deleted');
+                window.location.reload();
+            }).catch((err) => console.log('error', err));
+        };
+
+        Array.from(document.getElementsByClassName('remove')).forEach((bttn) => {
+            bttn.addEventListener("click", handleButtonClick, false);
+        });
+
+    });
+</script>
