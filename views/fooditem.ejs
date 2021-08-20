@@ -1,26 +1,97 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Klee+One&display=swap');
-
+    @import url('https://fonts.googleapis.com/css2?family=Urbanist&display=swap');
+    
     body {
-        padding: 2em;
-        margin: auto;
-        max-width: 12em;
+        margin: 0;
+        background-color:rgb(255, 245, 194);
+    }
+
+    ul {
+        line-height: 2em;
+        font-size: 1.5em;
+        padding: 1em;
+        padding-top: 0;
+    }
+
+    form {
+        padding: 1em;
+        padding-top: 0.3em;
+        font-size: 1.3em;
+    }
+
+    input {
+        padding: 1em;
+        font-size: 0.8em;
+        border: 1px solid rgb(237, 199, 6);
+        border-radius: 2em;
+        font-family: 'Urbanist', sans-serif;
+    }
+
+    header {
+        background-color: rgb(237, 199, 6);
+    }
+
+    hr {
+        width: 100%;
+        border: 1px solid rgb(234, 211, 99);
+        border-bottom: rgb(255, 245, 194);
+    }
+
+    button {
+        border: 1px solid black;
+        font-size: 1.2em;
+        padding: 0.8em;
+        font-family: 'Urbanist', sans-serif;
+        border-radius: 2em;
+        text-align: center;
+        background-color:rgb(255, 245, 194);
     }
     
+    .container {
+        padding: 2em;
+        padding-top: 2em;
+        margin: auto;
+        font-family: 'Klee One', cursive;
+        max-width: 30em;
+    }
+    
+    .delete {
+        cursor: pointer;
+    }
+
+    .button {
+        text-align: center;
+    }
+
+    .submit {
+        background-color: rgb(237, 199, 6);
+    }
+
+    .notes {
+        font-family: 'Urbanist', sans-serif;
+        padding: 0.6em 1em;
+        font-size: 2.5em;
+    }
+
 </style>
 
 <%- include('partials/header') %> 
 
-<h1>List Item</h1>
+<div class="container">
+    <h1>List Item</h1>
 
-<form action="/update-item" method="post">
-    Food item:
-    <input type="text" name="name" value="<%= foodItem.name %>">
-    <input type="hidden" name="id" value="<%= foodItem.id %>">
-    <p>Food item ID: <%= foodItem.id %> </p>
-    <input type="submit" value="Update">
-</form>
+    <form action="/update-item" method="post">
+        <p>Food item ID: <%= foodItem.id %> </p>
+        Food item:
+        <input type="text" name="name" value="<%= foodItem.name %>">
+        <input type="hidden" name="id" value="<%= foodItem.id %>">
+        <input type="submit" value="Update" class="submit">
+    </form>
 
-<a href="/"><button>Grocery List</button></a>
+    <div class="button">
+        <a href="/"><button>Grocery List</button></a>
+    </div>
+</div>
 
 <%- include('partials/footer') %> 

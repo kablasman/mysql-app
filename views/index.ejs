@@ -1,39 +1,88 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Klee+One&display=swap');
-
+    @import url('https://fonts.googleapis.com/css2?family=Urbanist&display=swap');
+    
     body {
+        margin: 0;
+        background-color:rgb(255, 245, 194);
+    }
+
+    ul {
+        line-height: 2em;
+        font-size: 1.5em;
+        padding: 1em;
+        padding-top: 0;
+    }
+
+    header {
+        background-color: rgb(237, 199, 6);
+    }
+
+    hr {
+        width: 100%;
+        border: 1px solid rgb(234, 211, 99);
+        border-bottom: rgb(255, 245, 194);
+    }
+
+    button {
+        border: 1px solid black;
+        font-size: 1.3em;
+        padding: 0.8em;
+        font-family: 'Urbanist', sans-serif;
+        border-radius: 2em;
+        text-align: center;
+        background-color:rgb(255, 245, 194);
+    }
+    
+    .container {
         padding: 2em;
+        padding-top: 0;
         margin: auto;
-        max-width: 12em;
+        font-family: 'Klee One', cursive;
     }
     
     .delete {
         cursor: pointer;
     }
 
+    .button {
+        text-align: center;
+
+    }
+
+    .notes {
+        font-family: 'Urbanist', sans-serif;
+        padding: 0.6em 1em;
+        font-size: 2.5em;
+    }
+
 </style>
 
 <%- include('partials/header') -%>
 
-<h1>Grocery List</h1>
+<div class="container">
+    <h1>Grocery List</h1>
 
-<% if (groceryList.length > 0) { %> 
+    <% if (groceryList.length > 0) { %> 
 
-<ul style="font-family: 'Klee One', cursive">
-    <% groceryList.forEach(foodItem => { %>
-    <li id="<%= foodItem.id %>">
-        <a style="text-decoration: none; color: black" href="/fooditem/<%= foodItem.id %> "><%= foodItem.name %></a>
-        <span class="remove">&#10005;</span>
-    </li>
-    <% }) %>
-</ul>
+    <ul style="font-family: 'Klee One', cursive; list-style-type: none;" >
+        <% groceryList.forEach(foodItem => { %>
+        <li id="<%= foodItem.id %>">
+            <a style="text-decoration: none; color: black" href="/fooditem/<%= foodItem.id %> "><%= foodItem.name %></a>
+            <span class="remove">&#10005;</span>
+        </li>
+        <hr>
+        <% }) %>
+    </ul>
 
-<% } else { %> 
-    <p>There have been no grocery items found.</p>
-<% } %> 
+    <% } else { %> 
+        <p>There have been no grocery items found.</p>
+    <% } %> 
 
-<a href="/add-list-item"><button>Add to List</button></a>
-
+    <div class="button">
+        <a href="/add-list-item"><button>Add To List</button></a>
+    </div>
+</div>
 <%- include('partials/footer') -%>
 
 <script>
