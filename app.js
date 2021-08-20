@@ -9,7 +9,7 @@ const { error } = require('console');
 const { reduce } = require('async');
 require('dotenv').config({path: `.env.${process.env.NODE_ENV}`});
 
-app.use(express.static(__dirname + 'public'));
+app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
 console.log("process", process.env.NODE_ENV);
